@@ -23,7 +23,7 @@ public struct StandardAction: Action {
     /// A String that identifies the type of this `StandardAction`
     public let type: String
     /// An untyped, JSON-compatible payload
-    public let payload: [String: AnyObject]?
+    public let payload: [String: Any]?
     /// Indicates whether this action will be deserialized as a typed action or as a standard action
     public let isTypedAction: Bool
 
@@ -35,7 +35,7 @@ public struct StandardAction: Action {
      - parameter payload:       Payload convertable to JSON
      - parameter isTypedAction: Is Action a subclassed type
     */
-    public init(type: String, payload: [String: AnyObject]? = nil, isTypedAction: Bool = false) {
+    public init(type: String, payload: [String: Any]? = nil, isTypedAction: Bool = false) {
         self.type = type
         self.payload = payload
         self.isTypedAction = isTypedAction
@@ -51,16 +51,16 @@ let reSwiftNull = "ReSwift_Null"
 
 extension StandardAction: Coding {
 
-    public init?(dictionary: [String: AnyObject]) {
+    public init?(dictionary: [String: Any]) {
         guard let type = dictionary[typeKey] as? String,
           let isTypedAction = dictionary[isTypedActionKey] as? Bool else { return nil }
         self.type = type
-        self.payload = dictionary[payloadKey] as? [String: AnyObject]
+        self.payload = dictionary[payloadKey] as? [String: Any]
         self.isTypedAction = isTypedAction
     }
 
-    public var dictionaryRepresentation: [String: AnyObject] {
-        let payload: AnyObject = self.payload ?? reSwiftNull
+    public var dictionaryRepresentation: [String: Any] {
+        let payload: Any = self.payload ?? reSwiftNull
 
         return [typeKey: type, payloadKey: payload, isTypedActionKey: isTypedAction]
     }
